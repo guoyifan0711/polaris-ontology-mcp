@@ -1,0 +1,27 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "polaris-ontology-mcp",
+  "version": "0.1.0",
+  "description": "连接 Polaris Ontology 云端只读 MCP，查询客户、员工、达人账号、报价、Offer 和 Trade。",
+  "author": {
+    "name": "guoyifan0711"
+  },
+  "homepage": "https://github.com/guoyifan0711/polaris-ontology-mcp",
+  "repository": "https://github.com/guoyifan0711/polaris-ontology-mcp",
+  "extensions": {
+    "com.openai": {
+      "interface": {
+        "displayName": "polaris ontology",
+        "shortDescription": "Polaris 达人业务查询；使用自己的账号认证。",
+        "developerName": "guoyifan0711",
+        "category": "Productivity",
+        "capabilities": ["Read"],
+        "websiteURL": "https://polaris-ontology.guoyifan2014.chatgpt.site",
+        "defaultPrompt": [
+          "查看当前 Polaris 数据快照的更新时间和覆盖范围。",
+          "按客户汇总关联报价、Offer 和交付进度。"
+        ]
+      }
+    }
+  }
+}

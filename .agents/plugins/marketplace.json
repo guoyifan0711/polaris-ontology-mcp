@@ -1,0 +1,20 @@
+{
+  "name": "polaris-ontology-mcp",
+  "interface": {
+    "displayName": "Polaris Ontology"
+  },
+  "plugins": [
+    {
+      "name": "polaris-ontology-mcp",
+      "source": {
+        "source": "local",
+        "path": "./"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}

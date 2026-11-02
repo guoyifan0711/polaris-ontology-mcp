@@ -1,0 +1,16 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/mcp.schema.json",
+  "mcpServers": {
+    "polaris-ontology": {
+      "type": "streamable-http",
+      "url": "https://polaris-ontology.guoyifan2014.chatgpt.site/mcp",
+      "extensions": {
+        "com.openai": {
+          "auth": {
+            "type": "oauth"
+          }
+        }
+      }
+    }
+  }
+}

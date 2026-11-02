@@ -1,0 +1,4 @@
+[mcp_servers.polaris-ontology]
+url = "https://polaris-ontology.guoyifan2014.chatgpt.site/mcp"
+auth = "oauth"
+scopes = ["openid", "resource.invoke", "email"]
