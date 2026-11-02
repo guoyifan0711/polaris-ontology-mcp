@@ -2,9 +2,9 @@
 
 连接现有 Polaris Ontology 云端服务，供已获授权的用户查询客户、员工、达人账号、报价、Offer、Trade 及交付信息。
 
-**v0.1.0 状态：连接配置和公开 OAuth 资源发现已核对，其他账号的首次安装、认证和查询尚待验收。** 当前认证发行方的发现文档未声明动态客户端注册（DCR）或客户端元数据文档（CIMD）支持。通用 MCP 客户端可能还需要预先登记的 OAuth 客户端；下载或安装本包本身不解决这一条件。
+**v0.2.0 包含查询工作流：Agent 会从云端读取业务语义、筛选枚举及问题范例，再调用与 Web 共用的查询和计算接口。其他账号的首次认证仍待验收。** 当前认证发行方的发现文档未声明动态客户端注册（DCR）或客户端元数据文档（CIMD）支持。通用 MCP 客户端可能还需要预先登记的 OAuth 客户端；下载或安装本包本身不解决这一条件。
 
-[打开 Polaris Web](https://polaris-ontology.guoyifan2014.chatgpt.site/workspace) · [下载 v0.1.0 ZIP](https://github.com/guoyifan0711/polaris-ontology-mcp/archive/refs/tags/v0.1.0.zip)
+[打开 Polaris Web](https://polaris-ontology.guoyifan2014.chatgpt.site/workspace) · [下载 v0.2.0 ZIP](https://github.com/guoyifan0711/polaris-ontology-mcp/archive/refs/tags/v0.2.0.zip)
 
 ## 使用前准备
 
@@ -12,14 +12,14 @@
 2. 使用支持远程 Streamable HTTP 与 OAuth 的 MCP 客户端。
 3. 安装后通过客户端完成自己的认证。原有 Sites 插件路径还要求关联 App 和插件的访问权限。
 
-业务数据继续保存在云端。仓库提供连接配置和说明；每位用户的登录凭据由自己的客户端管理。
+业务数据继续保存在云端。仓库提供连接配置、查询工作流和说明；每位用户的登录凭据由自己的客户端管理。
 
 ## Codex 桌面端：通过 GitHub 安装
 
 在已安装 Codex CLI 的终端中添加目录源：
 
 ```sh
-codex plugin marketplace add guoyifan0711/polaris-ontology-mcp --ref v0.1.0
+codex plugin marketplace add guoyifan0711/polaris-ontology-mcp --ref v0.2.0
 ```
 
 然后重启桌面应用，在插件目录中选择 **Polaris Ontology** 来源，安装 **polaris ontology**，按客户端提示连接自己的账号。若认证报告客户端注册不受支持，按下文处理；此时尚未完成连接。
@@ -55,6 +55,14 @@ codex mcp login polaris-ontology
 若客户端明确要求已登记的 OAuth client ID，请由维护者先确认该客户端可用于此 Site 的资源与回调地址，再通过客户端的受支持配置入口设置。仓库尚未提供已验证的通用 OAuth client ID。不要猜测 ID、复用他人的登录令牌或使用站点导入密钥。
 
 ChatGPT 网页版使用插件或“添加自定义 MCP”入口（取决于账号和工作区权限）。网页端不读取本地 Codex 配置；把 ZIP 上传为聊天附件也不会安装 MCP。
+
+## 自然语言使用
+
+安装后可直接问：“这个团队近7日日均计润多少？”“哪些已验收项目还有未交付或未付款的Trade？”“这张报价下面多个Offer的预算会重复吗？”
+
+插件内置 `polaris-query` 工作流；云端 MCP 的初始化说明也会引导 Agent 首次读取 `polaris_catalog(section="guide")`。业务规则和 OWL 从当前云端读取，结果携带规则版本、来源快照和计算截止。
+
+Agent 负责理解问题、消歧和选择工具；金额、日期、聚合与已实现分类由 Web 共用后端执行。云端保持只读，必要形式推理仍是独立能力。
 
 ## 连接后检查
 
