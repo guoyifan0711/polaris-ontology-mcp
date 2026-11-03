@@ -1,96 +1,59 @@
 # polaris ontology MCP
 
-连接现有 Polaris Ontology 云端服务，供已获授权的用户查询客户、员工、达人账号、报价、Offer、Trade 及交付信息。
+Windows Codex 的 Polaris 只读查询插件。v0.3.0 使用本机 stdio MCP 与使用者自己的 Site 登录会话；原云端五个工具负责查询、OWL 目录与业务计算。
 
-**v0.2.0 包含查询工作流：Agent 会从云端读取业务语义、筛选枚举及问题范例，再调用与 Web 共用的查询和计算接口。其他账号的首次认证仍待验收。** 当前认证发行方的发现文档未声明动态客户端注册（DCR）或客户端元数据文档（CIMD）支持。通用 MCP 客户端可能还需要预先登记的 OAuth 客户端；下载或安装本包本身不解决这一条件。
+[Polaris Web](https://polaris-ontology.guoyifan2014.chatgpt.site/workspace) · [下载 v0.3.0 ZIP](https://github.com/guoyifan0711/polaris-ontology-mcp/archive/refs/tags/v0.3.0.zip)
 
-[打开 Polaris Web](https://polaris-ontology.guoyifan2014.chatgpt.site/workspace) · [下载 v0.2.0 ZIP](https://github.com/guoyifan0711/polaris-ontology-mcp/archive/refs/tags/v0.2.0.zip)
+## 安装
 
-## 使用前准备
+需要 Windows Codex 本地会话及 Node.js 20+。启动器使用 Codex 随附运行时或 PATH 中的 Node，无需 npm 安装；ChatGPT 网页及云端执行会话不运行本地入口。
 
-1. 用自己的账号打开 Polaris Web，确认已获 Site 查看权限。
-2. 使用支持远程 Streamable HTTP 与 OAuth 的 MCP 客户端。
-3. 安装后通过客户端完成自己的认证。原有 Sites 插件路径还要求关联 App 和插件的访问权限。
+可将下面这段发给使用者自己的 Codex：
 
-业务数据继续保存在云端。仓库提供连接配置、查询工作流和说明；每位用户的登录凭据由自己的客户端管理。
+> 安装 https://github.com/guoyifan0711/polaris-ontology-mcp 的 v0.3.0，启用 polaris ontology MCP。这是本地 stdio 插件。发现五个 Polaris 工具后调用 polaris_source_status；连接页打开后等我登录并点击“连接本机 Codex”，再重试并查询一条业务记录。只有实际调用成功才报告已连接。如曾添加同名 HTTP MCP，仅在其 URL 完全匹配本站 /mcp 时移除旧配置，保留其它配置和连接；不要运行 mcp login。
 
-## Codex 桌面端：通过 GitHub 安装
+也可在可用的 Codex CLI 中执行：
 
-在已安装 Codex CLI 的终端中添加目录源：
+    codex plugin marketplace add guoyifan0711/polaris-ontology-mcp --ref v0.3.0
+    codex plugin add polaris-ontology-mcp@polaris-ontology-mcp
 
-```sh
-codex plugin marketplace add guoyifan0711/polaris-ontology-mcp --ref v0.2.0
-```
+ZIP 解压后，进入包含 plugin.json 的目录，将第一条命令改为 codex plugin marketplace add .，再安装同一插件。若命令未在 PATH 中，使用 Codex 完成安装或定位当前应用附带的 CLI，不复制其他电脑上的程序路径。
 
-然后重启桌面应用，在插件目录中选择 **Polaris Ontology** 来源，安装 **polaris ontology**，按客户端提示连接自己的账号。若认证报告客户端注册不受支持，按下文处理；此时尚未完成连接。
+## 连接
 
-从 ZIP 安装时，先解压并进入包含 `plugin.json` 的目录，再执行：
+1. 重开本地聊天，选择 polaris ontology MCP，并调用任一 Polaris 工具。
+2. 在自动打开的 Site 连接页，用获 Site 授权的账号登录，点击“连接本机 Codex”。
+3. 浏览器如询问本站访问本机网络，需要使用者允许。
+4. 页面显示已连接账号后，保留页面，可放在后台；回到 Codex 重试查询。
 
-```sh
-codex plugin marketplace add .
-```
+首次登录后页面若提示重试，回到 Codex 重新调用即可。页面关闭或本机 MCP 停止后，再次查询会提示重新连接。
 
-随后使用同一桌面安装流程。GitHub/本地 marketplace 的可用性取决于具体客户端。
+## 查询与验收
 
-## 直接添加 MCP
+可以自然语言问：“这个团队近7日日均计润多少？”“哪些已验收项目还有未交付或未付款的 Trade？”“这张报价下多个 Offer 的预算会重复吗？”
 
-无需插件目录的客户端可使用以下连接信息：
-
-| 项目 | 配置 |
+| 工具 | 用途 |
 | --- | --- |
-| 名称 | `polaris-ontology` |
-| 传输 | Streamable HTTP |
-| 地址 | `https://polaris-ontology.guoyifan2014.chatgpt.site/mcp` |
-| 认证 | OAuth，使用自己的账号 |
+| polaris_source_status | 来源快照、更新时间与覆盖 |
+| polaris_catalog | guide、对象、指标和 OWL |
+| polaris_query | 条件、分页、排序与指标 |
+| polaris_get | 对象详情与关联 |
+| polaris_view | 与 Web 共用的业务视角 |
 
-Codex CLI 配置命令：
+工作流先读取当前云端 guide，再解析身份、期间、范围与币种。业务结果由 Web 共用后端执行，传输不重新计算。安装状态不代表认证成功：需实际调用来源工具及一条有权访问的业务记录。连接页可复制不含配对值的验证结果，包含账号、时间、来源快照及成功工具次数；所有者与其他账号的验收分别记录。
 
-```sh
-codex mcp add polaris-ontology --url https://polaris-ontology.guoyifan2014.chatgpt.site/mcp
-codex mcp login polaris-ontology
-```
+## 权限与故障
 
-也可以参考 [Codex TOML 配置](examples/codex-config.toml)。选择一种配置方式，避免重复添加。
+每笔请求仍由原 Site 检查登录及分享权限。本机程序不读取 Cookie 或 OAuth 令牌，分发包不包含业务数据、个人凭据、服务凭据或导入密钥。浏览器只向原 Site 发出正常同源请求；云端 401/403 会使连接失效。
 
-若客户端明确要求已登记的 OAuth client ID，请由维护者先确认该客户端可用于此 Site 的资源与回调地址，再通过客户端的受支持配置入口设置。仓库尚未提供已验证的通用 OAuth client ID。不要猜测 ID、复用他人的登录令牌或使用站点导入密钥。
+本机仅监听 127.0.0.1 随机端口，检查准确 Host、本站 Origin 及内存中的临时配对值；最多四笔请求，有大小及超时限制。连接页读取后移除 URL 片段，配对值不写入文件。
 
-ChatGPT 网页版使用插件或“添加自定义 MCP”入口（取决于账号和工作区权限）。网页端不读取本地 Codex 配置；把 ZIP 上传为聊天附件也不会安装 MCP。
+没有工具时检查当前本地主机、插件来源、0.3.0 版本及启用状态。连不到本机时检查 Codex 是否运行及浏览器的本机网络权限。Site 拒绝访问时核对页面显示的账号和 Site 分享权限。Node 未找到时安装官方 Node.js 20+ 或使用带运行时的 Codex；启动器不改变系统执行策略。
 
-## 自然语言使用
+v0.1.0/v0.2.0 独立 HTTP 配置曾报 Dynamic client registration not supported，旧标签和 ZIP 保留原样。若仍出现该报错，检查旧 HTTP 配置或旧版本是否仍启用。Sites 原生插件是另一条路径，要求其 App 和插件权限。
 
-安装后可直接问：“这个团队近7日日均计润多少？”“哪些已验收项目还有未交付或未付款的Trade？”“这张报价下面多个Offer的预算会重复吗？”
+## 维护
 
-插件内置 `polaris-query` 工作流；云端 MCP 的初始化说明也会引导 Agent 首次读取 `polaris_catalog(section="guide")`。业务规则和 OWL 从当前云端读取，结果携带规则版本、来源快照和计算截止。
+默认分支 main。连接前仅包含公开工具名与通用参数结构，完整业务字段在连接后通过获授权的云端会话获取；语义和数据更新沿用云端入口。测试 scripts/test-session-relay.mjs 与 scripts/test-stdio.mjs。发布前核验 ZIP 只包含已提交的配置、传输代码、Skill 和说明。
 
-Agent 负责理解问题、消歧和选择工具；金额、日期、聚合与已实现分类由 Web 共用后端执行。云端保持只读，必要形式推理仍是独立能力。
-
-## 连接后检查
-
-在新会话中请求：“查看 Polaris 当前数据更新时间和来源覆盖范围。”确认客户端实际调用 `polaris_source_status`，再查询一条自己有权查看的业务记录。
-
-| 云端工具 | 用途 |
-| --- | --- |
-| `polaris_source_status` | 快照、各来源更新时间和覆盖窗口 |
-| `polaris_catalog` | 对象、关系、指标、聚合和 OWL 语义 |
-| `polaris_query` | 条件查询、分页、排序和指标计算 |
-| `polaris_get` | 按业务 ID 读取对象及关联 |
-| `polaris_view` | 与 Web 业务视图共用的聚合 |
-
-Agent 应从当前云端目录读取规则，保留返回的快照、计算时点、缺失与未知状态；核对网页结果时使用相同视角、筛选和计算时点。云端服务随数据同步和语义发布更新，本地连接配置通常无需变动。
-
-## 常见问题
-
-| 现象 | 处理 |
-| --- | --- |
-| `401` | 在客户端完成当前账号的认证，核对连接地址。 |
-| `403` | 核对当前登录账号、Site 分享权限，以及所用路径要求的 App/插件权限。 |
-| OAuth registration / client ID 错误 | 需要确认已登记客户端的兼容性；保留原错误交维护者处理。 |
-| 数据较旧 | 先读 `polaris_source_status`；安装包更新不会触发业务库刷新。 |
-| 安装成功但没有工具 | 检查插件启用状态、认证结果及客户端支持范围，在新会话中复查。 |
-
-## 维护与官方说明
-
-分发更新在本仓库提交到 `main` 并打版本标签。使用者可升级 marketplace 来源并安装新版本；已有云端数据库与访问策略继续由 Site 管理。
-
-- [OpenAI：插件打包与 GitHub marketplace](https://developers.openai.com/plugins/build/plugins)
-- [OpenAI：MCP 连接、OAuth 与 Sites 访问权限](https://learn.chatgpt.com/docs/extend/mcp)
+[OpenAI：本地 MCP](https://developers.openai.com/plugins/deploy/desktop-only) · [插件打包](https://developers.openai.com/plugins/build/plugins) · [Sites 与 MCP](https://learn.chatgpt.com/docs/extend/mcp)

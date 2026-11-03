@@ -1,4 +1,6 @@
+# Optional manual setup. Prefer installing the plugin.
+# Replace both paths with your trusted, unpacked v0.3.0 directory.
 [mcp_servers.polaris-ontology]
-url = "https://polaris-ontology.guoyifan2014.chatgpt.site/mcp"
-auth = "oauth"
-scopes = ["openid", "resource.invoke", "email"]
+command = "cmd.exe"
+args = ["/d", "/c", 'C:\path\to\polaris-ontology-mcp\scripts\start.cmd']
+cwd = 'C:\path\to\polaris-ontology-mcp'

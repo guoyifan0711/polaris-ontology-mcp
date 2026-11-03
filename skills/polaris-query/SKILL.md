@@ -5,7 +5,9 @@ description: 通过 Polaris Ontology MCP 回答达人业务的客户、员工、
 
 # Polaris 业务查询
 
-使用本插件连接的 Polaris MCP。每位用户用自己的账号认证，查询权限由服务端检查。
+使用本插件连接的 Polaris MCP。Windows Codex 通过本机 stdio 传输和 Site 会话连接页访问原云端 MCP；每位用户在自己的浏览器登录，查询权限由 Site 逐次检查，业务结果原样返回。
+
+首次先调用 polaris_source_status。若返回 connection_required，告知用户在自动打开的 Polaris 页面登录已获授权的账号，点击“连接本机 Codex”；浏览器如询问访问本机网络，需要用户允许。等待用户完成后重试同一工具，保留连接页，可后台使用。该本地入口不执行 codex mcp login，不配置单独的 OAuth 客户端。stdio 的 authStatus=unsupported 表示不使用独立 MCP OAuth；实际登录状态以 Site 连接页和真实工具调用为准。
 
 首次使用先调用 `polaris_catalog(section="guide")`，按返回的 `agent_guide` 选择查询流程和问题范例；不要求用户知道内部字段或工具名。已缓存定义时核对版本，规则从当前云端获取。仅需要原始 OWL 或形式定义时，再读 `section="semantics"` 或 `format="turtle"`。
 
