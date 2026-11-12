@@ -1,8 +1,8 @@
 # polaris ontology MCP
 
-Windows Codex 的 Polaris 只读查询插件。v0.3.0 使用本机 stdio MCP 与使用者自己的 Site 登录会话；原云端五个工具负责查询、OWL 目录与业务计算。
+Windows Codex 的 Polaris 只读查询插件。v0.3.1 使用本机 stdio MCP 与使用者自己的 Site 登录会话；原云端六个工具负责查询、OWL 目录与业务计算。
 
-[Polaris Web](https://polaris-ontology.guoyifan2014.chatgpt.site/workspace) · [下载 v0.3.0 ZIP](https://github.com/guoyifan0711/polaris-ontology-mcp/archive/refs/tags/v0.3.0.zip)
+[Polaris Web](https://polaris-ontology.guoyifan2014.chatgpt.site/workspace) · [下载 v0.3.1 ZIP](https://github.com/guoyifan0711/polaris-ontology-mcp/archive/refs/tags/v0.3.1.zip)
 
 ## 安装
 
@@ -10,11 +10,11 @@ Windows Codex 的 Polaris 只读查询插件。v0.3.0 使用本机 stdio MCP 与
 
 可将下面这段发给使用者自己的 Codex：
 
-> 安装 https://github.com/guoyifan0711/polaris-ontology-mcp 的 v0.3.0，启用 polaris ontology MCP。这是本地 stdio 插件。发现五个 Polaris 工具后调用 polaris_source_status；连接页打开后等我登录并点击“连接本机 Codex”，再重试并查询一条业务记录。只有实际调用成功才报告已连接。如曾添加同名 HTTP MCP，仅在其 URL 完全匹配本站 /mcp 时移除旧配置，保留其它配置和连接；不要运行 mcp login。
+> 安装 https://github.com/guoyifan0711/polaris-ontology-mcp 的 v0.3.1，启用 polaris ontology MCP。这是本地 stdio 插件。发现六个 Polaris 工具后调用 polaris_source_status；连接页打开后等我登录并点击“连接本机 Codex”，再重试并查询一条业务记录。只有实际调用成功才报告已连接。如曾添加同名 HTTP MCP，仅在其 URL 完全匹配本站 /mcp 时移除旧配置，保留其它配置和连接；不要运行 mcp login。
 
 也可在可用的 Codex CLI 中执行：
 
-    codex plugin marketplace add guoyifan0711/polaris-ontology-mcp --ref v0.3.0
+    codex plugin marketplace add guoyifan0711/polaris-ontology-mcp --ref v0.3.1
     codex plugin add polaris-ontology-mcp@polaris-ontology-mcp
 
 ZIP 解压后，进入包含 plugin.json 的目录，将第一条命令改为 codex plugin marketplace add .，再安装同一插件。若命令未在 PATH 中，使用 Codex 完成安装或定位当前应用附带的 CLI，不复制其他电脑上的程序路径。
@@ -39,6 +39,7 @@ ZIP 解压后，进入包含 plugin.json 的目录，将第一条命令改为 co
 | polaris_query | 条件、分页、排序与指标 |
 | polaris_get | 对象详情与关联 |
 | polaris_view | 与 Web 共用的业务视角 |
+| polaris_team | 团队总览、项目周目标和产能空间 |
 
 工作流先读取当前云端 guide，再解析身份、期间、范围与币种。业务结果由 Web 共用后端执行，传输不重新计算。安装状态不代表认证成功：需实际调用来源工具及一条有权访问的业务记录。连接页可复制不含配对值的验证结果，包含账号、时间、来源快照及成功工具次数；所有者与其他账号的验收分别记录。
 
@@ -52,9 +53,11 @@ ZIP 解压后，进入包含 plugin.json 的目录，将第一条命令改为 co
 
 本机仅监听 127.0.0.1 随机端口，检查准确 Host、本站 Origin 及内存中的临时配对值；最多四笔请求，有大小及超时限制。连接页读取后移除 URL 片段，配对值不写入文件。
 
-没有工具时检查当前本地主机、插件来源、0.3.0 版本及启用状态。连不到本机时检查 Codex 是否运行及浏览器的本机网络权限。Site 拒绝访问时核对页面显示的账号和 Site 分享权限。Node 未找到时安装官方 Node.js 20+ 或使用带运行时的 Codex；启动器不改变系统执行策略。
+没有工具时检查当前本地主机、插件来源、0.3.1 版本及启用状态。连不到本机时检查 Codex 是否运行及浏览器的本机网络权限。Site 拒绝访问时核对页面显示的账号和 Site 分享权限。Node 未找到时安装官方 Node.js 20+ 或使用带运行时的 Codex；启动器不改变系统执行策略。
 
 v0.1.0/v0.2.0 独立 HTTP 配置曾报 Dynamic client registration not supported，旧标签和 ZIP 保留原样。若仍出现该报错，检查旧 HTTP 配置或旧版本是否仍启用。Sites 原生插件是另一条路径，要求其 App 和插件权限。
+
+v0.3.1 新增团队查询工具；Site 连接页兼容 v0.3.0 的五工具握手，旧版需升级后使用新增团队查询。原生 OAuth 路径与本机桥接分别验收，本次未重复跨账号用户验收。
 
 ## 维护
 

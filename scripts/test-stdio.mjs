@@ -22,10 +22,10 @@ const request = input => new Promise((resolve, reject) => {
 try {
   const init = await request({jsonrpc: '2.0', id: 1, method: 'initialize', params: {protocolVersion: '2025-11-25', capabilities: {}, clientInfo: {name: 'test', version: '1'}}});
   assert.equal(init.result.protocolVersion, '2025-11-25');
-  assert.equal(init.result.serverInfo.version, '0.3.0');
+  assert.equal(init.result.serverInfo.version, '0.3.1');
   assert.match(init.result.instructions, /Site/);
   const list = await request({jsonrpc: '2.0', id: 2, method: 'tools/list'});
-  assert.equal(list.result.tools.length, 5);
+  assert.equal(list.result.tools.length, 6);
   assert.ok(list.result.tools.every(tool => tool.annotations.readOnlyHint));
   assert.match(list.result.tools.find(tool => tool.name === 'polaris_catalog').description, /首次查询/);
   const ping = await request({jsonrpc: '2.0', id: 3, method: 'ping'});

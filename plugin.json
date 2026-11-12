@@ -1,7 +1,7 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "polaris-ontology-mcp",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "通过自己的 Site 登录会话查询 Polaris；Windows Codex 本地 MCP，业务语义与 Web 共用。",
   "author": {
     "name": "guoyifan0711"

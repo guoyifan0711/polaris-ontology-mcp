@@ -3,7 +3,7 @@ import {randomBytes, randomUUID, timingSafeEqual} from 'node:crypto';
 import {spawn} from 'node:child_process';
 
 export const SITE_ORIGIN = 'https://polaris-ontology.guoyifan2014.chatgpt.site';
-export const TOOL_NAMES = ['polaris_catalog','polaris_get','polaris_query','polaris_source_status','polaris_view'];
+export const TOOL_NAMES = ['polaris_catalog','polaris_get','polaris_query','polaris_source_status','polaris_team','polaris_view'];
 const TOOL_SET = new Set(TOOL_NAMES);
 const MAX_INPUT = 65536;
 const MAX_RESULT = 8 * 1024 * 1024;

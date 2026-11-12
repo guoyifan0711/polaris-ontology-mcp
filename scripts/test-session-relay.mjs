@@ -13,7 +13,7 @@ const target = 'http://127.0.0.1:' + relay.port;
 const key = new URLSearchParams(relay.connectUrl.split('#')[1]).get('key');
 const headers = {Origin: SITE_ORIGIN, Authorization: 'Bearer ' + key, 'Content-Type': 'application/json'};
 const call = (path, body, overrides = {}) => fetch(target + path, {method: body === undefined ? 'GET' : 'POST', headers: {...headers, ...overrides}, body: body === undefined ? undefined : JSON.stringify(body)});
-const rpc = id => ({jsonrpc: '2.0', id, method: 'tools/call', params: {name: 'polaris_source_status', arguments: {}}});
+const rpc = id => ({jsonrpc: '2.0', id, method: 'tools/call', params: {name: 'polaris_team', arguments: {section:'capacity'}}});
 try {
   assert.equal((await fetch(target + '/status')).status, 403);
   assert.equal((await call('/status', undefined, {Origin: 'https://attacker.example'})).status, 403);

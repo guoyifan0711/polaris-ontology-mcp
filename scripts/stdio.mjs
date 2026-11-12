@@ -25,7 +25,7 @@ async function handle(line) {
     result({
       protocolVersion: versions.includes(input.params?.protocolVersion) ? input.params.protocolVersion : '2025-11-25',
       capabilities: {tools: {listChanged: true}},
-      serverInfo: {name: 'polaris ontology', version: '0.3.0'},
+      serverInfo: {name: 'polaris ontology', version: '0.3.1'},
       instructions: '本地 MCP 通过用户已登录的 Polaris Site 会话调用原云端工具。首次调用会打开连接页，请用户用获 Site 授权的账号登录并点击“连接本机 Codex”；完成后重试，不运行 mcp login。连接页保持打开即可后台使用。安装成功不等于认证成功。业务查询先读 polaris_catalog(section=guide)，由云端共享引擎执行；保留范围、币种、as_of、source_snapshot、来源时点和未知，不自行改算 Web 口径。',
     });
   } else if (input.method === 'ping') result({});
