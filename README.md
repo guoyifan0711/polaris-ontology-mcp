@@ -15,9 +15,10 @@ Windows 本机 Codex 和 Claude Code 接入 Polaris 的 MCP。连接网页后，
 ```powershell
 codex plugin marketplace add guoyifan0711/polaris-ontology-mcp --ref v0.4.0
 codex plugin add polaris-ontology-mcp@polaris-ontology-mcp
+codex features enable mcp_tool_list_changed
 ```
 
-已有 v0.3.x 时，检查 `codex plugin marketplace list`。若旧条目固定在旧标签，先用 `codex plugin marketplace remove polaris-ontology-mcp` 移除这个旧来源，再按以上命令添加 v0.4.0 和安装插件。若安装提示旧插件已装，移除同名旧插件后重新安装。在新的本地 Codex 会话中使用。
+已有 v0.3.x 时，检查 `codex plugin marketplace list`。若旧条目固定在旧标签，先用 `codex plugin marketplace remove polaris-ontology-mcp` 移除这个旧来源，再按以上命令添加 v0.4.0 和安装插件。若安装提示旧插件已装，移除同名旧插件后重新安装。完全退出并重新打开 Codex，再新建本机会话。工具目录刷新设置用于配对后的工具发现。如果客户端版本已移除此开关，核对该版本已默认支持工具目录刷新。
 
 ### Claude Code
 
@@ -45,7 +46,7 @@ claude mcp add --transport stdio --scope user polaris-ontology -- $polarisNode $
 
 - 云端实时检查权限。换号、退出登录或权限失效后，重新用自己的账号配对。旧版 v0.3.x 仍可连接各自的 5–6 个只读工具。
 - 本机服务只监听 `127.0.0.1`，检查本站 Origin、端口和临时配对值。配对值位于临时 URL 片段，读取后移除。程序不读取或导出 Cookie、OAuth 令牌或导入密钥。
-- 只有引导工具时，检查浏览器是否已配对、连接页是否保持打开、客户端是否实际加载 v0.4.0。连不到本机时，检查 Node 版本、MCP 启动状态和浏览器的本机网络权限。
+- 只有引导工具时，检查浏览器是否已配对、连接页是否保持打开、客户端是否实际加载 v0.4.0。Codex 还需启用工具目录刷新设置并重新启动。连不到本机时，检查 Node 版本、MCP 启动状态和浏览器的本机网络权限。
 - 浏览器会话接入使用 stdio。遇到 `Dynamic client registration not supported` 时，核查客户端是否仍在使用旧 Polaris HTTP 配置。
 
 ## 维护
