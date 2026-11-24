@@ -22,18 +22,19 @@ const request = input => new Promise((resolve, reject) => {
 try {
   const init = await request({jsonrpc: '2.0', id: 1, method: 'initialize', params: {protocolVersion: '2025-11-25', capabilities: {}, clientInfo: {name: 'test', version: '1'}}});
   assert.equal(init.result.protocolVersion, '2025-11-25');
-  assert.equal(init.result.serverInfo.version, '0.3.1');
-  assert.match(init.result.instructions, /Site/);
+  assert.equal(init.result.serverInfo.version, '0.4.0');
+  assert.equal(init.result.capabilities.tools.listChanged, true);
+  assert.match(init.result.instructions, /confirmation_url.*亲自.*网页/);
   const list = await request({jsonrpc: '2.0', id: 2, method: 'tools/list'});
-  assert.equal(list.result.tools.length, 6);
+  assert.equal(list.result.tools.length, 1);
   assert.ok(list.result.tools.every(tool => tool.annotations.readOnlyHint));
-  assert.match(list.result.tools.find(tool => tool.name === 'polaris_catalog').description, /首次查询/);
+  assert.match(list.result.tools.find(tool => tool.name === 'polaris_source_status').description, /首次调用/);
   const ping = await request({jsonrpc: '2.0', id: 3, method: 'ping'});
   assert.deepEqual(ping.result, {});
   child.stdin.end();
   const exit = await new Promise(resolve => child.once('exit', resolve));
   assert.equal(exit, 0, errors);
-  console.log('Windows launcher, UTF-8, stdio initialization, five tools and clean exit passed.');
+  console.log('Windows launcher, UTF-8, stdio initialization, bootstrap tool and clean exit passed.');
 } finally {
   if (child.exitCode === null) child.kill();
   lines.close();

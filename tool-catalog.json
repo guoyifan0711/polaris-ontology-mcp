@@ -1,88 +1,13 @@
 {
-  "source": "Public bootstrap tool names; full schemas are loaded through the authorized Site session.",
+  "source": "Public bootstrap tool; authorized tools and schemas are loaded from the Site.",
   "tools": [
     {
-      "name": "polaris_catalog",
-      "description": "首次查询先连接 Site 会话，再读取云端查询目录。",
-      "inputSchema": {
-        "type": "object",
-        "properties": {},
-        "additionalProperties": true
-      },
-      "annotations": {
-        "readOnlyHint": true,
-        "destructiveHint": false,
-        "idempotentHint": true,
-        "openWorldHint": false
-      }
-    },
-    {
-      "name": "polaris_get",
-      "description": "读取云端单个对象及其关联。",
-      "inputSchema": {
-        "type": "object",
-        "properties": {},
-        "additionalProperties": true
-      },
-      "annotations": {
-        "readOnlyHint": true,
-        "destructiveHint": false,
-        "idempotentHint": true,
-        "openWorldHint": false
-      }
-    },
-    {
-      "name": "polaris_query",
-      "description": "按云端规则查询对象。",
-      "inputSchema": {
-        "type": "object",
-        "properties": {},
-        "additionalProperties": true
-      },
-      "annotations": {
-        "readOnlyHint": true,
-        "destructiveHint": false,
-        "idempotentHint": true,
-        "openWorldHint": false
-      }
-    },
-    {
       "name": "polaris_source_status",
-      "description": "检查连接与云端来源状态。",
+      "description": "首次调用打开 Polaris 浏览器连接页。连接后读取当前账号的云端来源和工具目录。",
       "inputSchema": {
         "type": "object",
         "properties": {},
         "additionalProperties": false
-      },
-      "annotations": {
-        "readOnlyHint": true,
-        "destructiveHint": false,
-        "idempotentHint": true,
-        "openWorldHint": false
-      }
-    },
-    {
-      "name": "polaris_team",
-      "description": "查询与网页共用的团队总览、周目标与产能空间。",
-      "inputSchema": {
-        "type": "object",
-        "properties": {},
-        "additionalProperties": true
-      },
-      "annotations": {
-        "readOnlyHint": true,
-        "destructiveHint": false,
-        "idempotentHint": true,
-        "openWorldHint": false
-      }
-    },
-    {
-      "name": "polaris_view",
-      "description": "读取与网页共用的业务视图。",
-      "inputSchema": {
-        "type": "object",
-        "properties": {},
-        "additionalProperties": true
       },
       "annotations": {
         "readOnlyHint": true,

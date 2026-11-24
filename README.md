@@ -1,66 +1,53 @@
-# polaris ontology MCP
+# Polaris Ontology MCP
 
-Windows Codex 的 Polaris 只读查询插件。v0.3.1 使用本机 stdio MCP 与使用者自己的 Site 登录会话；原云端六个工具负责查询、OWL 目录与业务计算。
+Windows 本机 Codex 和 Claude Code 接入 Polaris 的 MCP。连接网页后，客户端按登录账号发现业务查询、项目协作等工具。每次调用由 Polaris 检查数据范围和项目编辑权限。
 
-[Polaris Web](https://polaris-ontology.guoyifan2014.chatgpt.site/workspace) · [下载 v0.3.1 ZIP](https://github.com/guoyifan0711/polaris-ontology-mcp/archive/refs/tags/v0.3.1.zip)
+[接入 Agent](https://polaris-ontology.guoyifan2014.chatgpt.site/workspace#/agents) · [下载 v0.4.0 ZIP](https://github.com/guoyifan0711/polaris-ontology-mcp/archive/refs/tags/v0.4.0.zip)
 
-## 安装
+## 安装或升级
 
-需要 Windows Codex 本地会话及 Node.js 20+。启动器使用 Codex 随附运行时或 PATH 中的 Node，无需 npm 安装；ChatGPT 网页及云端执行会话不运行本地入口。
+需要 Windows 本机会话和 Node.js 20+。Codex 启动器可使用 Codex 随附的 Node。Claude Code 使用本机已安装的 Node。
 
-可将下面这段发给使用者自己的 Codex：
+### Codex
 
-> 安装 https://github.com/guoyifan0711/polaris-ontology-mcp 的 v0.3.1，启用 polaris ontology MCP。这是本地 stdio 插件。发现六个 Polaris 工具后调用 polaris_source_status；连接页打开后等我登录并点击“连接本机 Codex”，再重试并查询一条业务记录。只有实际调用成功才报告已连接。如曾添加同名 HTTP MCP，仅在其 URL 完全匹配本站 /mcp 时移除旧配置，保留其它配置和连接；不要运行 mcp login。
+在「接入 Agent」选择 Codex 并复制配置指令。也可以在 PowerShell 中安装：
 
-也可在可用的 Codex CLI 中执行：
+```powershell
+codex plugin marketplace add guoyifan0711/polaris-ontology-mcp --ref v0.4.0
+codex plugin add polaris-ontology-mcp@polaris-ontology-mcp
+```
 
-    codex plugin marketplace add guoyifan0711/polaris-ontology-mcp --ref v0.3.1
-    codex plugin add polaris-ontology-mcp@polaris-ontology-mcp
+已有 v0.3.x 时，检查 `codex plugin marketplace list`。若旧条目固定在旧标签，先用 `codex plugin marketplace remove polaris-ontology-mcp` 移除这个旧来源，再按以上命令添加 v0.4.0 和安装插件。若安装提示旧插件已装，移除同名旧插件后重新安装。在新的本地 Codex 会话中使用。
 
-ZIP 解压后，进入包含 plugin.json 的目录，将第一条命令改为 codex plugin marketplace add .，再安装同一插件。若命令未在 PATH 中，使用 Codex 完成安装或定位当前应用附带的 CLI，不复制其他电脑上的程序路径。
+### Claude Code
 
-## 连接
+解压 ZIP 到固定目录。在 PowerShell 中将下方路径换成实际位置：
 
-1. 重开本地聊天，选择 polaris ontology MCP，并调用任一 Polaris 工具。
-2. 在自动打开的 Site 连接页，用获 Site 授权的账号登录，点击“连接本机 Codex”。
-3. 浏览器如询问本站访问本机网络，需要使用者允许。
-4. 页面显示已连接账号后，保留页面，可放在后台；回到 Codex 重试查询。
+```powershell
+$polarisNode = (Get-Command node.exe -CommandType Application).Source
+$polarisStdio = 'C:\path\to\polaris-ontology-mcp-0.4.0\scripts\stdio.mjs'
+claude mcp add --transport stdio --scope user polaris-ontology -- $polarisNode $polarisStdio
+```
 
-首次登录后页面若提示重试，回到 Codex 重新调用即可。页面关闭或本机 MCP 停止后，再次查询会提示重新连接。
+已有 `polaris-ontology` 时，先用 `claude mcp get polaris-ontology` 核对启动命令和作用域。仅在确认是旧版 Polaris 的情况下，按显示的作用域移除该项，再注册新版。打开新的 Claude Code 本机会话，用 `/mcp` 核对服务。 [Claude Code 本机 MCP 文档](https://code.claude.com/docs/en/mcp#option-3-add-a-local-stdio-server)
 
-## 查询与验收
+## 登录并核对工具
 
-可以自然语言问：“这个团队近7日日均计润多少？”“哪些已验收项目还有未交付或未付款的 Trade？”“这张报价下多个 Offer 的预算会重复吗？”
+1. 让 Agent 调用 `polaris_source_status`。连接前只有这个引导工具，首次调用会打开浏览器连接页。
+2. 用自己的获授权账号登录，点击「连接本机 Agent」。浏览器询问访问本机网络时，由你允许。使用期间保留此页。
+3. 连接成功后，客户端重新发现当前账号的目录。重试来源查询，再查一条有权访问的业务记录，可在连接页同时核对工具数和来源快照。
 
-| 工具 | 用途 |
-| --- | --- |
-| polaris_source_status | 来源快照、更新时间与覆盖 |
-| polaris_catalog | guide、对象、指标和 OWL |
-| polaris_query | 条件、分页、排序与指标 |
-| polaris_get | 对象详情与关联 |
-| polaris_view | 与 Web 共用的业务视角 |
-| polaris_team | 团队总览、项目周目标和产能空间 |
+项目协作包含创建人工项目、更新成员和 Brief、查历史与恢复版本、更新项目资料、关联或解除 Offer。能否编辑由站点根据账号和项目权限判定。写入前按工具要求读取当前版本和快照，完成后回读。
 
-工作流先读取当前云端 guide，再解析身份、期间、范围与币种。业务结果由 Web 共用后端执行，传输不重新计算。安装状态不代表认证成功：需实际调用来源工具及一条有权访问的业务记录。连接页可复制不含配对值的验证结果，包含账号、时间、来源快照及成功工具次数；所有者与其他账号的验收分别记录。
-
-### 跨账号测试记录
-
-2026-11-10（北京时间），用户确认 xiaomao-niceday 的 MCP 连接成功。本条依据本次会话中的用户测试反馈，确认范围为跨账号连接；来源快照、工具返回及业务记录 ID 未随反馈提供，业务查询验收仍以客户端实际回执为准。
+**删除项目由网页确认。** Agent 先询问用户是否确定，然后提供 `polaris_project_delete` 返回的 `confirmation_url`。具备权限的人需要亲自在网页点击「确认删除」。验收接入时只做读取。
 
 ## 权限与故障
 
-每笔请求仍由原 Site 检查登录及分享权限。本机程序不读取 Cookie 或 OAuth 令牌，分发包不包含业务数据、个人凭据、服务凭据或导入密钥。浏览器只向原 Site 发出正常同源请求；云端 401/403 会使连接失效。
-
-本机仅监听 127.0.0.1 随机端口，检查准确 Host、本站 Origin 及内存中的临时配对值；最多四笔请求，有大小及超时限制。连接页读取后移除 URL 片段，配对值不写入文件。
-
-没有工具时检查当前本地主机、插件来源、0.3.1 版本及启用状态。连不到本机时检查 Codex 是否运行及浏览器的本机网络权限。Site 拒绝访问时核对页面显示的账号和 Site 分享权限。Node 未找到时安装官方 Node.js 20+ 或使用带运行时的 Codex；启动器不改变系统执行策略。
-
-v0.1.0/v0.2.0 独立 HTTP 配置曾报 Dynamic client registration not supported，旧标签和 ZIP 保留原样。若仍出现该报错，检查旧 HTTP 配置或旧版本是否仍启用。Sites 原生插件是另一条路径，要求其 App 和插件权限。
-
-v0.3.1 新增团队查询工具；Site 连接页兼容 v0.3.0 的五工具握手，旧版需升级后使用新增团队查询。原生 OAuth 路径与本机桥接分别验收，本次未重复跨账号用户验收。
+- 云端实时检查权限。换号、退出登录或权限失效后，重新用自己的账号配对。旧版 v0.3.x 仍可连接各自的 5–6 个只读工具。
+- 本机服务只监听 `127.0.0.1`，检查本站 Origin、端口和临时配对值。配对值位于临时 URL 片段，读取后移除。程序不读取或导出 Cookie、OAuth 令牌或导入密钥。
+- 只有引导工具时，检查浏览器是否已配对、连接页是否保持打开、客户端是否实际加载 v0.4.0。连不到本机时，检查 Node 版本、MCP 启动状态和浏览器的本机网络权限。
+- 浏览器会话接入使用 stdio。遇到 `Dynamic client registration not supported` 时，核查客户端是否仍在使用旧 Polaris HTTP 配置。
 
 ## 维护
 
-默认分支 main。连接前仅包含公开工具名与通用参数结构，完整业务字段在连接后通过获授权的云端会话获取；语义和数据更新沿用云端入口。测试 scripts/test-session-relay.mjs 与 scripts/test-stdio.mjs。发布前核验 ZIP 只包含已提交的配置、传输代码、Skill 和说明。
-
-[OpenAI：本地 MCP](https://developers.openai.com/plugins/deploy/desktop-only) · [插件打包](https://developers.openai.com/plugins/build/plugins) · [Sites 与 MCP](https://learn.chatgpt.com/docs/extend/mcp)
+运行 `node scripts/test-session-relay.mjs` 和 `node scripts/test-stdio.mjs`。标签须对应已提交、验证过的源码。发布包仅附连接引导工具，授权目录和业务语义由当前站点提供。

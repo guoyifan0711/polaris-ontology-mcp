@@ -1,5 +1,5 @@
 # Optional manual setup. Prefer installing the plugin.
-# Replace both paths with your trusted, unpacked v0.3.0 directory.
+# Replace both paths with your trusted, unpacked v0.4.0 directory.
 [mcp_servers.polaris-ontology]
 command = "cmd.exe"
 args = ["/d", "/c", 'C:\path\to\polaris-ontology-mcp\scripts\start.cmd']

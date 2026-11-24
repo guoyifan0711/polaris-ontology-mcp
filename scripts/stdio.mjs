@@ -1,5 +1,5 @@
 import {readFile} from 'node:fs/promises';
-import {createSessionRelay} from './session-relay.mjs';
+import {createSessionRelay, MAX_RPC_BYTES} from './session-relay.mjs';
 
 const catalog = JSON.parse(await readFile(new URL('../tool-catalog.json', import.meta.url), 'utf8'));
 let initialized = false;
@@ -25,8 +25,8 @@ async function handle(line) {
     result({
       protocolVersion: versions.includes(input.params?.protocolVersion) ? input.params.protocolVersion : '2025-11-25',
       capabilities: {tools: {listChanged: true}},
-      serverInfo: {name: 'polaris ontology', version: '0.3.1'},
-      instructions: '本地 MCP 通过用户已登录的 Polaris Site 会话调用原云端工具。首次调用会打开连接页，请用户用获 Site 授权的账号登录并点击“连接本机 Codex”；完成后重试，不运行 mcp login。连接页保持打开即可后台使用。安装成功不等于认证成功。业务查询先读 polaris_catalog(section=guide)，由云端共享引擎执行；保留范围、币种、as_of、source_snapshot、来源时点和未知，不自行改算 Web 口径。',
+      serverInfo: {name: 'polaris ontology', version: '0.4.0'},
+      instructions: '首次调用 polaris_source_status 打开连接页，请用户用获授权的 Polaris 账号登录并点击“连接本机 Agent”。保持页面打开，完成后重试。本机按该账号发现云端工具，每次调用由站点校验权限。先读 polaris_catalog(section=guide) 掌握业务口径。项目写入须有用户明确指令，按工具要求读当前版本并核对写入结果。申请删除只能提供 confirmation_url，先询问用户是否确认，由有权限的人亲自在网页点击确认删除。',
     });
   } else if (input.method === 'ping') result({});
   else if (input.method === 'tools/list') result({tools: relay.tools});
@@ -45,7 +45,7 @@ process.stdin.setEncoding('utf8');
 process.stdin.on('data', chunk => {
   for (const part of chunk.split(/(?<=\n)/)) {
     if (!dropping) buffer += part;
-    if (Buffer.byteLength(buffer) > 65536) { dropping = true; buffer = ''; }
+    if (Buffer.byteLength(buffer) > MAX_RPC_BYTES) { dropping = true; buffer = ''; }
     if (part.endsWith('\n')) {
       if (dropping) { dropping = false; send(errorReply(null, -32600, '请求过大')); }
       else if (buffer.trim()) void handle(buffer.trim()).catch(() => send(errorReply(null, -32603, '本机查询暂不可用')));
