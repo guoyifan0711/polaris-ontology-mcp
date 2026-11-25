@@ -22,7 +22,7 @@ const request = input => new Promise((resolve, reject) => {
 try {
   const init = await request({jsonrpc: '2.0', id: 1, method: 'initialize', params: {protocolVersion: '2025-11-25', capabilities: {}, clientInfo: {name: 'test', version: '1'}}});
   assert.equal(init.result.protocolVersion, '2025-11-25');
-  assert.equal(init.result.serverInfo.version, '0.4.0');
+  assert.equal(init.result.serverInfo.version, '0.5.0');
   assert.equal(init.result.capabilities.tools.listChanged, true);
   assert.match(init.result.instructions, /confirmation_url.*亲自.*网页/);
   const list = await request({jsonrpc: '2.0', id: 2, method: 'tools/list'});

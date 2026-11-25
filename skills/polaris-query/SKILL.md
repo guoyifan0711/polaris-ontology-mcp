@@ -5,7 +5,9 @@ description: 通过 Polaris Ontology MCP 回答达人业务的客户、员工、
 
 # Polaris 业务查询
 
-使用本插件连接的 Polaris MCP。Windows 本机通过 stdio 和 Site 会话调用云端 MCP。登录自己的账号后发现当前可用工具，Site 逐次检查访问和操作权限。
+安装、更新和首次调用统一从 [接入 Agent](https://polaris-ontology.guoyifan2014.chatgpt.site/workspace#/agents) 进入。当前客户端已有原生 polaris ontology 时直接调用它。以下浏览器配对步骤仅适用于已配置的本机兼容连接。
+
+Windows 本机通过 stdio 和 Site 会话调用云端 MCP。登录自己的账号后发现当前可用工具，Site 逐次检查访问和操作权限。
 
 首次先调用 polaris_source_status。若返回 connection_required，告知用户在自动打开的 Polaris 页面登录已获授权的账号，点击“连接本机 Agent”；浏览器如询问访问本机网络，需要用户允许。等待用户完成后重试同一工具，保留连接页，可后台使用。该本地入口不执行 codex mcp login，不配置单独的 OAuth 客户端。stdio 的 authStatus=unsupported 表示不使用独立 MCP OAuth；实际登录状态以 Site 连接页和真实工具调用为准。
 

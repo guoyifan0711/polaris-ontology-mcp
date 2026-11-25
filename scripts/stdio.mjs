@@ -25,7 +25,7 @@ async function handle(line) {
     result({
       protocolVersion: versions.includes(input.params?.protocolVersion) ? input.params.protocolVersion : '2025-11-25',
       capabilities: {tools: {listChanged: true}},
-      serverInfo: {name: 'polaris ontology', version: '0.4.0'},
+      serverInfo: {name: 'polaris ontology', version: '0.5.0'},
       instructions: '首次调用 polaris_source_status 打开连接页，请用户用获授权的 Polaris 账号登录并点击“连接本机 Agent”。保持页面打开，完成后重试。本机按该账号发现云端工具，每次调用由站点校验权限。先读 polaris_catalog(section=guide) 掌握业务口径。项目写入须有用户明确指令，按工具要求读当前版本并核对写入结果。申请删除只能提供 confirmation_url，先询问用户是否确认，由有权限的人亲自在网页点击确认删除。',
     });
   } else if (input.method === 'ping') result({});

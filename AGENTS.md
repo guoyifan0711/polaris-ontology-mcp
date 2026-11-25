@@ -1,11 +1,11 @@
 # Polaris Ontology MCP 分发维护
 
-- 本仓库发布远程 MCP 客户端配置及安装说明，默认分支为 `main`。
+- 默认分支为 `main`。所有用户从本站 `/workspace#/agents` 安装、更新和验证，Git 的 `polaris.mjs` 指向同一页。当前 marketplace 不再分发第二个 Codex 插件；现有标签及历史安装独立保留。stdio 客户端由同一启动器的 `serve` 接入。
 - 云端接口是 `https://polaris-ontology.guoyifan2014.chatgpt.site/mcp`；v0.3.0 的 Windows 本地 stdio 通过 `/mcp-connect` 页的用户 Site 会话调用它。
 - 保留 Sites 原有认证及访问策略；本机传输不读取或分发 Cookie、OAuth 令牌、导入密钥和服务凭据。安装不代表获得业务权限，当前页面账号须经 Site 校验。
 - 凭据由每位使用者在自己的客户端维护。业务数据库、个人令牌、导入密钥和凭据文件均留在分发包之外。
 - 业务定义和当前数据从云端工具获取；更新本仓库无需同步数据库或部署 Site。
-- 修改时核对 `plugin.json`、`mcp.json`、marketplace、配置示例及 README 的一致性。
+- 修改时核对统一启动器、README 和站点接入页。历史 Codex 插件清单保留在 v0.4.0 标签，当前分发仅保留统一入口与客户端适配。
 - 发布标签对应已提交的源码；校验配置、归档内容并回读 GitHub。
 - 分别记录分发配置校验、OAuth 发现检查和跨账号端到端验收；后者未验证时明确说明。
 - 2026-11-03：v0.3.0 标准入口为 Windows Codex 本地 stdio 与 Site 会话连接页；独立 HTTP 默认 OAuth 已确认 DCR 不支持，不能作为本地入口的修复流程。Sites 原生插件是另一条要求 App/插件权限的路径。独立注册客户端须另行验证，不能猜测或复用其它用途 client ID。
